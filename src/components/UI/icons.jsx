@@ -1,0 +1,1 @@
+export { AiFillFire as Fire } from "react-icons/ai";
