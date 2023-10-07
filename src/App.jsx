@@ -1,8 +1,7 @@
 import React from "react";
 // import data from './data/modis_mexico.json'
-import data from "./data/litte_modis_mexico.json";
 import { Route, Routes } from "react-router-dom";
-import MapMexico from "./pages/MapMexico";
+import Map from "./pages/Map";
 import Navbar from "./pages/Navbar";
 import CardData from "./pages/CardData";
 
@@ -13,7 +12,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<div>Hello World</div>} />
-        <Route path="/map" element={<MapMexico />} />
+        <Route path="/map" element={<Map/>} />
         <Route path="/card" element={<CardData />} />
       </Routes>
     </>
