@@ -7,7 +7,7 @@ import {
   getFilteredRowModel, //Filtro
   getSortedRowModel, //Ordenar
 } from "@tanstack/react-table";
-import fakeData from "../data/200_modis_mexico.json";
+import fakeData from "../data/litte_modis_mexico";
 import classNames from "classnames";
 // import { rankItem } from "@tanstack/match-sorter-utils";
 
@@ -105,7 +105,7 @@ function Table() {
 
     {
       accessorKey: "type",
-      header: () => <span>FRP</span>,
+      header: () => <span>Tipo</span>,
       cell: (info) => (
         <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
       ),
