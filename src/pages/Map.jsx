@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import data from "../data/200_modis_mexico.json"; // Importa el archivo JSON
+import { useParams } from "react-router-dom";
 
 // Define un icono personalizado con un punto rojo
 const redIcon = new L.Icon({
@@ -16,15 +17,31 @@ const redIcon = new L.Icon({
 });
 
 function Map() {
+  const { latitude: lat, longitude: long } = useParams();
   const mapRef = useRef(null);
 
+  // Memoiza los datos para evitar recargas innecesarias
+  const memoizedData = useMemo(() => data, []);
+
+  console.log(lat, long)
+
   useEffect(() => {
-    const latitude = 17.8385; // Coordenadas iniciales
-    const longitude = -93.1252;
+    // Convierte las coordenadas de cadena a números
+    const latitude = parseFloat(lat);
+    const longitude = parseFloat(long);
+
+    let initialLatitude = 19.0224;
+    let initialLongitude = -98.6248;
+
+    // Si latitude o longitude son válidos, se utilizan como coordenadas iniciales
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+      initialLatitude = latitude;
+      initialLongitude = longitude;
+    }
 
     if (!mapRef.current) {
       // Crea un mapa y asigna una ubicación inicial
-      const map = L.map("map").setView([latitude, longitude], 6);
+      const map = L.map("map").setView([initialLatitude, initialLongitude], 6);
 
       // Utiliza OpenStreetMap como fuente del mapa
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -32,17 +49,25 @@ function Map() {
       }).addTo(map);
 
       // Crea un marcador y agrégalo al mapa
-      L.marker([latitude, longitude], { icon: redIcon }).addTo(map);
+      L.marker([initialLatitude, initialLongitude]).addTo(map);
 
       mapRef.current = map;
     }
-  }, []);
+  }, [lat, long]);
 
   useEffect(() => {
-    if (mapRef.current && data) {
-      data.forEach((marker) => {
-        const { latitude, longitude, acq_date, brightness, confidence, bright_t31, frp } =
-          marker;
+    if (mapRef.current && memoizedData) {
+      memoizedData.forEach((marker) => {
+        const {
+          latitude,
+          longitude,
+          acq_date,
+          brightness,
+          confidence,
+          bright_t31,
+          frp,
+          type,
+        } = marker;
 
         const popupContent = `
           <div>
@@ -53,6 +78,7 @@ function Map() {
             <strong>Confianza:</strong> ${confidence} <br />
             <strong>Bright_t31:</strong> ${bright_t31} <br />
             <strong>FRP:</strong> ${frp} <br />
+            <strong>Tipo:</strong> ${type} <br />
           </div>
         `;
 
@@ -63,7 +89,7 @@ function Map() {
           .addTo(mapRef.current);
       });
     }
-  }, [data]);
+  }, [memoizedData]);
 
   return (
     <div id="map" style={{ height: "calc(100vh - 64px)", width: "100%" }}></div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -9,7 +9,9 @@ import {
 } from "@tanstack/react-table";
 import fakeData from "../data/200_modis_mexico.json";
 import classNames from "classnames";
-import { rankItem } from "@tanstack/match-sorter-utils";
+// import { rankItem } from "@tanstack/match-sorter-utils";
+
+import { useNavigate } from "react-router-dom";
 
 const DebounceInput = ({ value: keyWord, onChange, ...props }) => {
   const [value, setValue] = useState(keyWord);
@@ -33,20 +35,29 @@ const DebounceInput = ({ value: keyWord, onChange, ...props }) => {
 };
 
 function Table() {
+  const navigate = useNavigate();
 
-  const fakeDataWithIds = fakeData.map((item, index) => {
-    // Genera un ID único para cada objeto basado en el índice
-    const id = `row_${index + 1}`;
-    // Crea una copia del objeto y agrega el ID
-    return { id, ...item };
-  });
-  
+  const handleRowClick = (rowData) => {
+    // Aquí puedes construir la URL de redirección usando los datos de la fila
+    const mapUrl = `/map/${rowData.latitude}/${rowData.longitude}`;
+    navigate(mapUrl);
+  };
+
+  const fakeDataWithIds = useMemo(() => {
+    return fakeData.map((item, index) => ({
+      id: `row_${index + 1}`,
+      ...item,
+    }));
+  }, [fakeData]);
+
+  useEffect(() => {
+    // Actualiza los datos cuando fakeDataWithIds cambia
+    setData(fakeDataWithIds);
+  }, [fakeDataWithIds]);
+
   const [data, setData] = useState(fakeDataWithIds);
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
-  console.log(globalFilter);
-  
-  console.log(data)
 
   const columns = [
     {
@@ -80,20 +91,26 @@ function Table() {
     {
       accessorKey: "bright_t31",
       header: () => <span>bright_t31</span>,
+      cell: (info) => (
+        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
+      ),
     },
     {
       accessorKey: "frp",
       header: () => <span>FRP</span>,
-      // enableSorting: false, //No se puede ordenar
+      cell: (info) => (
+        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
+      ),
     },
-    // {
-    //   header: "bright_t31",
-    //   header: () => <span className="hover:text-slate-300">Bright_t31</span>,
-    //   cell: (info) => <span className="font-bold">{info.getValue()}</span>,
-    // },
-  ];
 
-  
+    {
+      accessorKey: "type",
+      header: () => <span>FRP</span>,
+      cell: (info) => (
+        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
+      ),
+    },
+  ];
 
   const getStateTable = () => {
     const totalRows = table.getFilteredRowModel().rows.length;
@@ -180,7 +197,11 @@ function Table() {
           {table.getRowModel().rows.map((row) => (
             <tr className="text-gray-200 hover:bg-gray-500" key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td className="py-2 px-4" key={cell.id}>
+                <td
+                  className="py-2 px-4 cursor-pointer"
+                  key={cell.id}
+                  onClick={() => handleRowClick(row.original)}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -260,7 +281,7 @@ function Table() {
       </div>
       {/* Paginacion */}
     </div>
-  )
+  );
 }
 
-export default Table
+export default Table;

@@ -17,6 +17,8 @@ function App() {
         <Route path="/map" element={<Map/>} />
         <Route path="/card" element={<CardData />} />
         <Route path="/table" element={<Table />} />
+
+        <Route path="/map/:latitude/:longitude" element={<Map />} />
       </Routes>
     </>
   );

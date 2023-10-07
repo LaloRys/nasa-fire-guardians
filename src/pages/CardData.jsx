@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 // import data from './data/modis_mexico.json'
 import data from '../data/litte_modis_mexico.json'
 
 function CardData() {
-  console.log(data)
+  
+  const memoizedData = useMemo(() => data, []);
+
+  console.log(memoizedData);
 
   return (
     <div className='grid grid-cols-4 gap-4'>
-      {data.map((item, index) => (
+      {memoizedData.map((item, index) => (
         <div className='p-4 mt-1 border-2 border-white' key={index}>
           <h1 className='text-xl bg-slate-500 text-center'>Dato: {index}</h1>
           <p>Latitud: {item.latitude}</p>
