@@ -40,6 +40,45 @@ CREATE TABLE
 
 SELECT * FROM modis_2022_mexico;
 
-COPY modis_2022_Mexico
+COPY modis_2022
 FROM
     'C:/modis_2022_Mexico.csv' DELIMITER ',' CSV HEADER;
+
+CREATE TABLE
+    modis_2022(
+        id SERIAL PRIMARY KEY,
+        latitude FLOAT,
+        longitude FLOAT,
+        brightness FLOAT,
+        scan FLOAT,
+        track FLOAT,
+        acq_date DATE,
+        acq_time INT,
+        satellite VARCHAR(50),
+        instrument VARCHAR(50),
+        confidence INT,
+        version FLOAT,
+        bright_t31 FLOAT,
+        frp FLOAT,
+        daynight VARCHAR(1),
+        type INT
+    );
+
+COPY modis_2022 (
+    latitude,
+    longitude,
+    brightness,
+    scan,
+    track,
+    acq_date,
+    acq_time,
+    satellite,
+    instrument,
+    confidence,
+    version,
+    bright_t31,
+    frp,
+    daynight,
+    type
+)
+FROM 'C:/modis_2022_Mexico.csv' DELIMITER ',' CSV HEADER;
