@@ -1,7 +1,11 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import data from "../data/litte_modis_mexico"; // Importa el archivo JSON
+// import data from "../data/litte_modis_mexico"; // Importa el archivo JSON
+import dataMexico from "../data/200_modis_mexico"; // Importa el archivo JSON
+// import dataUK from '../data/modis_2022_United_Kingdom.json'
+import dataUK from '../data/modis_2022_United_Kingdom-200.json'
+
 import { useParams } from "react-router-dom";
 import fireBlue from "../assets/fireBlue.png";
 import fireGreen from "../assets/fireGreen.png";
@@ -52,13 +56,20 @@ const fireOrangeIcon = createFireIcon(fireOrange);
 const fireRedIcon = createFireIcon(fireRed);
 
 function Map() {
+
   const { latitude: lat, longitude: long } = useParams();
   const mapRef = useRef(null);
-
+  const [selectedData, setSelectedData] = useState(dataMexico);
+  
   // Memoiza los datos para evitar recargas innecesarias
-  const memoizedData = useMemo(() => data, []);
+  const memoizedData = useMemo(() => selectedData, [selectedData]);
 
-  console.log(lat, long);
+  // const handleDataChange = (event) => {
+  //   const selectedValue = event.target.value;
+  //   setSelectedData(selectedValue === "Mexico" ? dataMexico : dataUK);
+  // };
+
+  // console.log(lat, long);
 
   useEffect(() => {
     // Convierte las coordenadas de cadena a números
@@ -143,13 +154,25 @@ function Map() {
   }, [memoizedData]);
 
   return (
-    <>
-      {/* <Legend /> */}
-      <div
-        id="map"
-        style={{ height: "calc(100vh - 64px)", width: "100%" }}
-      ></div>
-    </>
+   <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
+      <select
+        className="absolute bottom-4 left-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
+        style={{
+          zIndex: 1000,
+        }}
+        value={selectedData === dataMexico ? "mexico" : "uk"}
+        onChange={(e) => {
+          setSelectedData(e.target.value === "mexico" ? dataMexico : dataUK);
+        }}
+      >
+        <option value="mexico">Mexico Data</option>
+        <option value="uk">United Kingdom Data</option>
+      </select>
+
+      <Legend />
+
+      <div id="map" style={{ height: "100%", width: "100%" }}></div>
+    </div>
   );
 }
 
