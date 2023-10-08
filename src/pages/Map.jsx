@@ -104,7 +104,15 @@ function Map() {
   }, [lat, long]);
 
   useEffect(() => {
-    if (mapRef.current && memoizedData) {
+    if (mapRef.current) {
+      // Borra todos los marcadores existentes
+      mapRef.current.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          mapRef.current.removeLayer(layer);
+        }
+      });
+  
+      // Agrega los nuevos marcadores
       memoizedData.forEach((marker) => {
         const {
           latitude,
@@ -116,7 +124,7 @@ function Map() {
           frp,
           type,
         } = marker;
-
+  
         // Define el icono en función del brillo (brightness)
         let selectedIcon;
         if (brightness < 315.64) {
@@ -130,7 +138,7 @@ function Map() {
         } else {
           selectedIcon = fireRedIcon;
         }
-
+  
         const popupContent = `
           <div>
             <strong>Latitud:</strong> ${latitude} <br />
@@ -143,9 +151,9 @@ function Map() {
             <strong>Tipo:</strong> ${type} <br />
           </div>
         `;
-
+  
         const customPopup = L.popup().setContent(popupContent);
-
+  
         L.marker([latitude, longitude], { icon: selectedIcon })
           .bindPopup(customPopup)
           .addTo(mapRef.current);
@@ -156,7 +164,7 @@ function Map() {
   return (
    <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
       <select
-        className="absolute bottom-4 left-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
+        className="absolute bottom-4 left-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded-lg"
         style={{
           zIndex: 1000,
         }}
