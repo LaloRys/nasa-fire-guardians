@@ -10,6 +10,8 @@ import {
 import fakeData from "../data/litte_modis_mexico";
 import classNames from "classnames";
 // import { rankItem } from "@tanstack/match-sorter-utils";
+import Sun from '../assets/sun.svg'
+import Moon from '../assets/moon.svg'
 
 import { useNavigate } from "react-router-dom";
 
@@ -63,7 +65,7 @@ function Table() {
     {
       accessorKey: "latitude",
       header: () => <span className="hover:text-slate-300">Latitude</span>,
-      cell: (info) => <span className="font-semibold">{info.getValue()}</span>,
+      cell: (info) => <span className="font-bold">{info.getValue()}</span>,
     },
     {
       accessorKey: "longitude",
@@ -73,42 +75,57 @@ function Table() {
     {
       accessorKey: "brightness",
       header: () => <span>brightness</span>,
+      cell: (info) => <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">{info.getValue()}</span>,
     },
     {
       accessorKey: "confidence",
-      header: () => <span>Confidence</span>,
-      cell: (info) => (
-        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
-      ),
+      header: () => <span>Confianza</span>,
+      cell: (info) => {
+        return info.getValue() < 75 ? (
+          <p className="font-bold bg-red-400 p-1 rounded-md text-white text-center">
+            {info.getValue()}
+          </p>
+        ) : (
+          <p className="font-bold bg-green-400 p-1 rounded-md text-white text-center">
+            {info.getValue()}
+          </p>
+        );
+      },
     },
     {
       accessorKey: "satellite",
       header: () => <span>satellite</span>,
-      cell: (info) => (
-        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
-      ),
+      cell: (info) => <p className="font-bold">{info.getValue()}</p>,
+
     },
     {
       accessorKey: "bright_t31",
       header: () => <span>bright_t31</span>,
-      cell: (info) => (
-        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
-      ),
+      cell: (info) => <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">{info.getValue()}</span>,
     },
     {
       accessorKey: "frp",
       header: () => <span>FRP</span>,
-      cell: (info) => (
-        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
-      ),
+      cell: (info) => <p className="font-bold">{info.getValue()}</p>,
     },
 
     {
       accessorKey: "type",
-      header: () => <span>Tipo</span>,
-      cell: (info) => (
-        <span className="text-cyan-400 font-semibold">{info.getValue()}</span>
-      ),
+      header: () => <span>Type</span>,
+      cell: (info) => <span className="font-bold bg-sky-600 py-1  px-2 rounded-md text-white">{info.getValue()}</span>,
+
+    },
+    {
+      accessorKey: "daynight",
+      header: () => <span>Day | Night</span>,
+      cell: (info) => {
+        return info.getValue() === "N" ? (
+          <img src={Moon} style={{width: '20px', height: '20px'}}/>
+        ) : (
+          <img src={Sun} style={{width: '20px', height: '20px'}}/>
+
+        );
+      },
     },
   ];
 
