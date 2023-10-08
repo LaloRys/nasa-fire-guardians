@@ -1,14 +1,14 @@
 export const navbarRoutes = [
   {
     path: '/map',
-    name: 'Mapa',
+    name: 'Map',
   },
   {
     path: '/table',
-    name: 'Tabla',
+    name: 'Table',
   },
   {
     path: '/card',
-    name: 'Datos',
+    name: 'Data',
   }
 ]

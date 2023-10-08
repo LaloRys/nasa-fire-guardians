@@ -128,14 +128,14 @@ function Map() {
 
         const popupContent = `
           <div>
-            <strong>Latitud:</strong> ${latitude} <br />
-            <strong>Longitud:</strong> ${longitude} <br />
-            <strong>Fecha de Adquisición:</strong> ${acq_date} <br />
-            <strong>Brillo:</strong> ${brightness} <br />
-            <strong>Confianza:</strong> ${confidence} <br />
+            <strong>Latitude:</strong> ${latitude} <br />
+            <strong>Length:</strong> ${longitude} <br />
+            <strong>Acquisition Date:</strong> ${acq_date} <br />
+            <strong>Brightness:</strong> ${brightness} <br />
+            <strong>Trust:</strong> ${confidence} <br />
             <strong>Bright_t31:</strong> ${bright_t31} <br />
             <strong>FRP:</strong> ${frp} <br />
-            <strong>Tipo:</strong> ${type} <br />
+            <strong>Type:</strong> ${type} <br />
           </div>
         `;
 
