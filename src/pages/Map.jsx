@@ -3,6 +3,12 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import data from "../data/litte_modis_mexico"; // Importa el archivo JSON
 import { useParams } from "react-router-dom";
+import fireBlue from "../assets/fireBlue.png";
+import fireGreen from "../assets/fireGreen.png";
+import fireOrange from "../assets/fireOrange.png";
+import fireRed from "../assets/fireRed.png";
+import fireYellow from "../assets/fireYellow.png";
+import Legend from "../components/map/Legend";
 
 // Define un icono personalizado con un punto rojo
 const redIcon = new L.Icon({
@@ -10,10 +16,10 @@ const redIcon = new L.Icon({
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  iconSize: [15, 25], // Cambia el tamaño del icono aquí [ancho, alto]
-  iconAnchor: [7, 25], // Ajusta la posición del icono en relación al marcador [x, y]
+  iconSize: [30, 50], // Cambia el tamaño del icono aquí [ancho, alto]
+  iconAnchor: [14, 50], // Ajusta la posición del icono en relación al marcador [x, y]
   popupAnchor: [1, -20], // Ajusta la posición del popup en relación al icono [x, y]
-  shadowSize: [25, 25],
+  shadowSize: [15, 15],
 });
 
 const blueIcon = new L.Icon({
@@ -27,6 +33,24 @@ const blueIcon = new L.Icon({
   shadowSize: [25, 25],
 });
 
+function createFireIcon(iconUrl) {
+  return new L.Icon({
+    iconUrl: iconUrl,
+    shadowUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+    iconSize: [15, 20], // Cambia el tamaño del icono aquí [ancho, alto]
+    iconAnchor: [7, 25], // Ajusta la posición del icono en relación al marcador [x, y]
+    popupAnchor: [1, -20], // Ajusta la posición del popup en relación al icono [x, y]
+    shadowSize: [25, 25],
+  });
+}
+
+const fireBlueIcon = createFireIcon(fireBlue);
+const fireGreenIcon = createFireIcon(fireGreen);
+const fireYellowIcon = createFireIcon(fireYellow);
+const fireOrangeIcon = createFireIcon(fireOrange);
+const fireRedIcon = createFireIcon(fireRed);
+
 function Map() {
   const { latitude: lat, longitude: long } = useParams();
   const mapRef = useRef(null);
@@ -34,7 +58,7 @@ function Map() {
   // Memoiza los datos para evitar recargas innecesarias
   const memoizedData = useMemo(() => data, []);
 
-  console.log(lat, long)
+  console.log(lat, long);
 
   useEffect(() => {
     // Convierte las coordenadas de cadena a números
@@ -60,7 +84,9 @@ function Map() {
       }).addTo(map);
 
       // Crea un marcador y agrégalo al mapa
-      L.marker([initialLatitude, initialLongitude], { icon: blueIcon }).addTo(map);
+      L.marker([initialLatitude, initialLongitude], { icon: redIcon }).addTo(
+        map
+      );
 
       mapRef.current = map;
     }
@@ -80,6 +106,20 @@ function Map() {
           type,
         } = marker;
 
+        // Define el icono en función del brillo (brightness)
+        let selectedIcon;
+        if (brightness < 315.64) {
+          selectedIcon = fireBlueIcon;
+        } else if (brightness < 330.68) {
+          selectedIcon = fireGreenIcon;
+        } else if (brightness < 345.72) {
+          selectedIcon = fireYellowIcon;
+        } else if (brightness < 360.76) {
+          selectedIcon = fireOrangeIcon;
+        } else {
+          selectedIcon = fireRedIcon;
+        }
+
         const popupContent = `
           <div>
             <strong>Latitud:</strong> ${latitude} <br />
@@ -95,7 +135,7 @@ function Map() {
 
         const customPopup = L.popup().setContent(popupContent);
 
-        L.marker([latitude, longitude], { icon: redIcon })
+        L.marker([latitude, longitude], { icon: selectedIcon })
           .bindPopup(customPopup)
           .addTo(mapRef.current);
       });
@@ -103,7 +143,13 @@ function Map() {
   }, [memoizedData]);
 
   return (
-    <div id="map" style={{ height: "calc(100vh - 64px)", width: "100%" }}></div>
+    <>
+      {/* <Legend /> */}
+      <div
+        id="map"
+        style={{ height: "calc(100vh - 64px)", width: "100%" }}
+      ></div>
+    </>
   );
 }
 

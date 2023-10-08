@@ -1,8 +1,11 @@
 import React from 'react';
+import { FaMapMarkerAlt } from "react-icons/fa";
+
 
 const Main = () => {
   return (
     <div className="container mx-auto p-8">
+      <FaMapMarkerAlt></FaMapMarkerAlt>
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4 text-center">Bienvenido a nuestra aplicación MODIS</h2>
         <p>
