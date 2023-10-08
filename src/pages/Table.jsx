@@ -195,7 +195,7 @@ function Table() {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr className="text-gray-200 hover:bg-gray-500" key={row.id}>
+            <tr className="text-black hover:bg-gray-200 bg-white" key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td
                   className="py-2 px-4 cursor-pointer"
