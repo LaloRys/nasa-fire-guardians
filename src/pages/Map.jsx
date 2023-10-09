@@ -45,7 +45,7 @@ function createFireIcon(iconUrl) {
     iconSize: [15, 20], // Cambia el tamaño del icono aquí [ancho, alto]
     iconAnchor: [7, 25], // Ajusta la posición del icono en relación al marcador [x, y]
     popupAnchor: [1, -20], // Ajusta la posición del popup en relación al icono [x, y]
-    shadowSize: [25, 25],
+    shadowSize: [12, 12],
   });
 }
 
@@ -87,18 +87,6 @@ function Map() {
         attribution: "&copy; OpenStreetMap contributors",
       }).addTo(map);
       
-
-      // L.tileLayer(
-      //   "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
-      //   {
-      //     attribution: "&copy; OpenStreetMap contributors",
-      //   }
-      // ).addTo(map);
-
-      // L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-      //   attribution: "&copy; OpenTopoMap",
-      // }).addTo(map);
-
       // Crea un marcador y agrégalo al mapa
       L.marker([initialLatitude, initialLongitude], { icon: redIcon }).addTo(
         map
@@ -157,6 +145,22 @@ function Map() {
       });
     }
   }, [memoizedData]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      let latitude, longitude;
+
+      if (selectedData === dataMexico) {
+        latitude = 23.6345;  // Coordenadas aproximadas para el centro de México
+        longitude = -102.5528;
+      } else if (selectedData === dataUK) {
+        latitude = 54.7024;  // Coordenadas aproximadas para el centro del Reino Unido
+        longitude = -3.2766;
+      }
+
+      mapRef.current.setView([latitude, longitude], 6);
+    }
+  }, [selectedData]);
 
   return (
     <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
