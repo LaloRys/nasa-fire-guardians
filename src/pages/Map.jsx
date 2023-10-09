@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import dataMexico from "../data/litte_modis_mexico"; // Importa el archivo JSON
 // import dataMexico from "../data/200_modis_mexico"; // Importa el archivo JSON
 // import dataUK from '../data/modis_2022_United_Kingdom.json'
-import dataUK from '../data/modis_2022_United_Kingdom-200.json'
+import dataUK from "../data/modis_2022_United_Kingdom-200.json";
 
 import { useParams } from "react-router-dom";
 import fireBlue from "../assets/fireBlue.png";
@@ -56,19 +56,12 @@ const fireOrangeIcon = createFireIcon(fireOrange);
 const fireRedIcon = createFireIcon(fireRed);
 
 function Map() {
-
   const { latitude: lat, longitude: long } = useParams();
   const mapRef = useRef(null);
   const [selectedData, setSelectedData] = useState(dataUK);
-  
+
   // Memoiza los datos para evitar recargas innecesarias
   const memoizedData = useMemo(() => selectedData, [selectedData]);
-
-  const moveMapToLocation = (latitude, longitude) => {
-    if (mapRef.current) {
-      mapRef.current.setView([latitude, longitude], 6);
-    }
-  };
 
   useEffect(() => {
     // Convierte las coordenadas de cadena a números
@@ -89,9 +82,41 @@ function Map() {
       const map = L.map("map").setView([initialLatitude, initialLongitude], 6);
 
       // Utiliza OpenStreetMap como fuente del mapa
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(map);
+
+      // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //   attribution: "&copy; OpenStreetMap contributors",
+      // }).addTo(map);
+
+      // L.tileLayer(
+      //   "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
+      //   {
+      //     attribution: "&copy; OpenStreetMap contributors",
+      //   }
+      // ).addTo(map);
+
+      L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+  attribution: "&copy; OpenTopoMap",
+}).addTo(map);
+
+      
+
+      //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //   attribution: "&copy; OpenStreetMap contributors",
+      // }).addTo(map);
+
+      // L.tileLayer("http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
+      //   attribution:
+      //     '&copy; <a href="http://maps.stamen.com/terrain/">Stamen Terrain</a> contributors',
+      // }).addTo(map);
+
+      // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //   attribution: "&copy; OpenStreetMap contributors",
+      // }).addTo(map);
+
+      // L.tileLayer("http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
+      //   attribution:
+      //     '&copy; <a href="http://maps.stamen.com/terrain/">Stamen Terrain</a> contributors',
+      // }).addTo(map);
 
       // Crea un marcador y agrégalo al mapa
       L.marker([initialLatitude, initialLongitude], { icon: redIcon }).addTo(
@@ -153,7 +178,7 @@ function Map() {
   }, [memoizedData]);
 
   return (
-   <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
+    <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
       <select
         className="absolute bottom-4 left-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
         style={{
