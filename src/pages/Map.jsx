@@ -83,9 +83,10 @@ function Map() {
 
       // Utiliza OpenStreetMap como fuente del mapa
 
-      // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //   attribution: "&copy; OpenStreetMap contributors",
-      // }).addTo(map);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+      
 
       // L.tileLayer(
       //   "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png",
@@ -94,28 +95,8 @@ function Map() {
       //   }
       // ).addTo(map);
 
-      L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenTopoMap",
-}).addTo(map);
-
-      
-
-      //   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //   attribution: "&copy; OpenStreetMap contributors",
-      // }).addTo(map);
-
-      // L.tileLayer("http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
-      //   attribution:
-      //     '&copy; <a href="http://maps.stamen.com/terrain/">Stamen Terrain</a> contributors',
-      // }).addTo(map);
-
-      // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //   attribution: "&copy; OpenStreetMap contributors",
-      // }).addTo(map);
-
-      // L.tileLayer("http://tile.stamen.com/terrain/{z}/{x}/{y}.jpg", {
-      //   attribution:
-      //     '&copy; <a href="http://maps.stamen.com/terrain/">Stamen Terrain</a> contributors',
+      // L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+      //   attribution: "&copy; OpenTopoMap",
       // }).addTo(map);
 
       // Crea un marcador y agrégalo al mapa
@@ -193,6 +174,7 @@ function Map() {
         <option value="uk">United Kingdom Data</option>
       </select>
 
+    
       <Legend />
 
       <div id="map" style={{ height: "100%", width: "100%" }}></div>
