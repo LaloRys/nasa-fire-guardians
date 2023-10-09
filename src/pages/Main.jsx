@@ -5,28 +5,23 @@ const Main = () => {
     <div className="container mx-auto p-8 w-full h-full">
       <section className="mb-8">
         <h2 className="text-2xl font-bold mb-4 text-center">
-          Bienvenido a nuestra aplicación MODIS
+          HIGH-LEVEL SUMMARY
         </h2>
-        <p>
-          Living through a natural disaster is often complicated; fires can be
-          caused by a variety of factors, from lightning strikes to human
-          carelessness. Imagine having at your fingertips a website that
-          collects historical data of fires that have occurred and can predict
-          the areas near you or the people you love where there is a possibility
-          of a fire developing. We invite you to explore Fire Data.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Sobre los datos MODIS en esta aplicación
-        </h2>
-        <p>
-          Los datos MODIS que se utilizan en esta aplicación son recopilados y
-          proporcionados por la NASA. Se incluyen datos sobre incendios
-          forestales, concentraciones de aerosoles y otros fenómenos relevantes.
-          Estos datos son esenciales para monitorear y comprender la salud de
-          nuestro planeta y su entorno.
+        <p className="text-xl text-center">
+          The study of wildland fires has become increasingly important in
+          recent decades, impacting parameters such as the environment, climate
+          change, economics, and natural resources. According to National
+          Geographic, 85 to 90 percent of fires are human-caused, with burning
+          trash, discarded cigarettes, and arson being among the leading causes.
+          Consequently, our mission is focused on predicting the areas most at
+          risk of fire based on well-established historical data provided by
+          MODIS available in the Fire Information for Resource Management System
+          (FIRMS) as an input of an artificial intelligence algorithm. The
+          result will be an easy-to-access website where users can select a
+          calendar date in the future and visualize if they or their family
+          members could be in an area at risk. This website will serve to make
+          strategic decisions for local governments in order to reduce the
+          impact of wildfires.
         </p>
       </section>
     </div>

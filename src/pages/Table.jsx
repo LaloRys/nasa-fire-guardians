@@ -7,7 +7,9 @@ import {
   getFilteredRowModel, //Filtro
   getSortedRowModel, //Ordenar
 } from "@tanstack/react-table";
-import fakeData from "../data/litte_modis_mexico";
+import dataMX from "../data/litte_modis_mexico";
+import dataUK from '../data/modis_2022_United_Kingdom-200.json'
+
 import classNames from "classnames";
 // import { rankItem } from "@tanstack/match-sorter-utils";
 import Sun from '../assets/sun.svg'
@@ -37,6 +39,9 @@ const DebounceInput = ({ value: keyWord, onChange, ...props }) => {
 };
 
 function Table() {
+  const [data, setData] = useState(dataUK);
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [sorting, setSorting] = useState([]);
   const navigate = useNavigate();
 
   const handleRowClick = (rowData) => {
@@ -45,21 +50,12 @@ function Table() {
     navigate(mapUrl);
   };
 
-  const fakeDataWithIds = useMemo(() => {
-    return fakeData.map((item, index) => ({
+  const dataWithIds = (data) => {
+    return data.map((item, index) => ({
       id: `row_${index + 1}`,
       ...item,
     }));
-  }, [fakeData]);
-
-  useEffect(() => {
-    // Actualiza los datos cuando fakeDataWithIds cambia
-    setData(fakeDataWithIds);
-  }, [fakeDataWithIds]);
-
-  const [data, setData] = useState(fakeDataWithIds);
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [sorting, setSorting] = useState([]);
+  };
 
   const columns = [
     {
@@ -150,7 +146,7 @@ function Table() {
     },
     initialState: {
       pagination: {
-        pageSize: 15, //Valor para inicializar la pagina
+        pageSize: 12, //Valor para inicializar la pagina
       },
     },
     getCoreRowModel: getCoreRowModel(),
@@ -163,26 +159,39 @@ function Table() {
 
   return (
     <div className="px-6 py-4">
-      {/* Buscador  */}
-      <div className="my-2 text-right">
-        <DebounceInput
-          type="text"
-          value={globalFilter ?? ""}
-          onChange={(value) => setGlobalFilter(String(value))}
-          className="text-black border-indigo-800 px-2 py-1 rounded-md outline-indigo-600"
-          placeholder="Buscar..."
-        />
+      <div className="flex justify-between">
+        {/* Buscador  */}
+        <div className="my-2 text-right">
+          <DebounceInput
+            type="text"
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            className="text-black border-indigo-800 px-2 py-1 rounded-md outline-indigo-600"
+            placeholder="Look for..."
+          />
+        </div>
+        <div>
+        <button className="bg-[#224c73] font-semibold px-2 py-1 rounded-md hover:bg-[#4b8fcf] mr-2" onClick={() => setData(dataWithIds(dataMX))}>Show Mexico Data</button>
+          <button className="bg-[#224c73] font-semibold px-2 py-1 rounded-md hover:bg-[#4b8fcf] mr-2" onClick={() => setData(dataWithIds(dataUK))}>Show UK Data</button>
+        </div>
+        {/* Texto de ubicacion */}
+        <div className="text-gray-400 text-sm font-semibold">
+        Showing {getStateTable().firstIndex} to{" "}
+            {getStateTable().lastIndex} of the total {getStateTable().totalRows}{" "}
+            records
+          </div>         
+          {/* Texto de ubicacion */}
       </div>
       {/* Buscador  */}
       <table className="table-auto w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr
-              className="border-b border-gray-300 bg-indigo-600"
+              className="border-b border-gray-300 bg-[#224c73]"
               key={headerGroup.id}
             >
               {headerGroup.headers.map((header) => (
-                <th className="py-2 px-4 text-left uppercase" key={header.id}>
+                <th className="py-2 px-4 text-left uppercase hover:bg-[#4a8ecd]" key={header.id}>
                   {header.isPlaceholder ? null : (
                     // Control Ordenado
                     <div
@@ -233,14 +242,14 @@ function Table() {
           <button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-            className="bg-indigo-600 px-2 py-1 rounded-md hover:bg-indigo-500  disabled:hover:bg-slate-700"
+            className="bg-[#224c73] px-2 py-1 rounded-md hover:bg-[#4b8fcf]  disabled:hover:bg-slate-700"
           >
             {"<<"}
           </button>
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="bg-indigo-600 px-2 py-1 rounded-md hover:bg-indigo-500  disabled:hover:bg-slate-700"
+            className="bg-[#224c73] px-2 py-1 rounded-md hover:bg-[#4b8fcf]  disabled:hover:bg-slate-700"
           >
             {"<"}
           </button>
@@ -249,8 +258,8 @@ function Table() {
             <button
               onClick={() => table.setPageIndex(pageNumber)}
               className={classNames({
-                "bg-indigo-600 px-2.5 py-1 rounded-md hover:bg-indigo-500 font-semibold disabled:hover:bg-slate-700": true,
-                "bg-indigo-100 text-black":
+                "bg-[#224c73] px-2.5 py-1 rounded-md hover:bg-[#4b8fcf] hover:py-2 font-semibold disabled:hover:bg-slate-700": true,
+                "text-white px-2.5 py-2 bg-blue-500":
                   pageNumber == table.getState().pagination.pageIndex,
               })}
               key={index}
@@ -262,37 +271,31 @@ function Table() {
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="bg-indigo-600 px-2 py-1 rounded-md hover:bg-indigo-500 disabled:hover:bg-slate-700"
+            className="bg-[#224c73] px-2 py-1 rounded-md hover:bg-[#4b8fcf] disabled:hover:bg-slate-700"
           >
             {">"}
           </button>
           <button
             onClick={() => table.setPageIndex(table.getPageCount() - 1)} // Calcular ultima pagina
             disabled={!table.getCanPreviousPage()}
-            className="bg-indigo-600 px-2 py-1 rounded-md hover:bg-indigo-500  disabled:hover:bg-slate-700"
+            className="bg-[#224c73] px-2 py-1 rounded-md hover:bg-[#4b8fcf] disabled:hover:bg-slate-700"
           >
             {">>"}
           </button>
         </div>
         {/* Arrows de navegacion */}
-        {/* Texto de ubicacion */}
-        <div className="text-gray-400 text-sm font-semibold">
-          Mostrando de {getStateTable().firstIndex} al{" "}
-          {getStateTable().lastIndex} del total de {getStateTable().totalRows}{" "}
-          registros
-        </div>
-        {/* Texto de ubicacion */}
+        
         {/* Numero de paginas */}
         <select
-          className="text-black border  border-gray-200 rounded-lg outline-indigo-600"
+          className="text-black border border-gray-200 rounded-lg outline-indigo-600"
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
         >
-          <option value="10">10 pág.</option>
-          <option value="20">20 pág.</option>
-          <option value="25">25 pág.</option>
-          <option value="50">50 pág.</option>
+          <option value="10">10 pp.</option>
+          <option value="20">20 pp.</option>
+          <option value="25">25 pp.</option>
+          <option value="50">50 pp.</option>
         </select>
         {/* Numero de paginas */}
       </div>

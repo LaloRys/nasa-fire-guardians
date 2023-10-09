@@ -64,7 +64,11 @@ function Map() {
   // Memoiza los datos para evitar recargas innecesarias
   const memoizedData = useMemo(() => selectedData, [selectedData]);
 
-  console.log(lat, long);
+  const moveMapToLocation = (latitude, longitude) => {
+    if (mapRef.current) {
+      mapRef.current.setView([latitude, longitude], 6);
+    }
+  };
 
   useEffect(() => {
     // Convierte las coordenadas de cadena a números
