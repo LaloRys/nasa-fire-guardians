@@ -12,7 +12,7 @@ function CardData() {
       {memoizedData.map((item, index) => (
         <div
           key={index}
-          className="p-4 mt-4 border-2 border-black text-black bg-[#ecf6fa] rounded-lg"
+          className="p-4 mt-4 border-2 border-black text-black bg-[#ecf6fa] bg-opacity-70 backdrop-blur rounded-lg"
         >
           <h1 className="text-xl bg-[#224c73] text-center text-white p-2 rounded-t-lg">
             Dato: {index}
