@@ -167,19 +167,21 @@ function Map() {
 
   return (
     <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
-      <select
-        className="absolute bottom-4 left-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
-        style={{
-          zIndex: 1000,
-        }}
-        value={selectedData === dataMexico ? "mexico" : "uk"}
-        onChange={(e) => {
-          setSelectedData(e.target.value === "mexico" ? dataMexico : dataUK);
-        }}
-      >
-        <option value="mexico">Mexico Data</option>
-        <option value="uk">United Kingdom Data</option>
-      </select>
+      <div>
+        <select
+          className="absolute left-4 bottom-10 sm:bottom-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
+          style={{
+            zIndex: 1000,
+          }}
+          value={selectedData === dataMexico ? "mexico" : "uk"}
+          onChange={(e) => {
+            setSelectedData(e.target.value === "mexico" ? dataMexico : dataUK);
+          }}
+        >
+          <option value="mexico">Mexico Data</option>
+          <option value="uk">United Kingdom Data</option>
+        </select>
+      </div>
 
     
       <Legend />
