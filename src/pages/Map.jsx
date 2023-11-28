@@ -169,7 +169,7 @@ function Map() {
     <div style={{ position: "relative", height: "calc(100vh - 64px)" }}>
       <div>
         <select
-          className="absolute left-4 bottom-10 sm:bottom-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
+          className="absolute left-4 bottom-8 sm:bottom-4 px-3 py-2 bg-[#1b3c5b] border border-gray-300 rounded"
           style={{
             zIndex: 1000,
           }}

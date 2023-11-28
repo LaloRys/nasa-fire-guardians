@@ -10,7 +10,7 @@ const legendData = {
   },
   green: {
     color: "#6cac60",
-    label: "Fire Danger Level: Moderate (315.64 - 330.68) ",
+    label: "Fire Danger Level: Moderate (315.64 - 330.68)",
     info: `When the fire danger is "moderate" it means that fires can start from most accidental
     causes, but the number of fire starts is usually pretty low. If a fire does start in an
     open, dry grassland, it will burn and spread quickly on windy days. Most wood fires
@@ -21,7 +21,7 @@ const legendData = {
   },
   yellow: {
     color: "#ffde68",
-    label: "Fire Danger Level: Moderate (315.64 - 330.68) ",
+    label: "Fire Danger Level: High (330.68 - 345.72)",
     info: `When the fire danger is "high", fires can start easily from most causes and small
     fuels (such as grasses and needles) will ignite readily. Unattended campfires and
     brush fires are likely to escape. Fires will spread easily, with some areas of
@@ -30,7 +30,7 @@ const legendData = {
   },
   orange: {
     color: "#ff991b",
-    label: "Fire Danger Level: Moderate (315.64 - 330.68) ",
+    label: "Fire Danger Level: Very High (345.72 - 360.76)",
     info: `When the fire danger is "very high", fires will start easily from most causes. The fires
     will spread rapidly and have a quick increase in intensity, right after ignition. Small
     fires can quickly become large fires and exhibit extreme fire intensity, such as
@@ -40,7 +40,7 @@ const legendData = {
   },
   red: {
     color: "#ff3c1a",
-    label: "Fire Danger Level: Moderate (315.64 - 330.68) ",
+    label: "Fire Danger Level: Extreme (360.76 - 375.8)",
     info: `When the fire danger is "extreme", fires of all types start quickly and burn intensely.
     All fires are potentially serious and can spread very quickly with intense burning.
     Small fires become big fires much faster than at the "very high" level. Spot fires are
