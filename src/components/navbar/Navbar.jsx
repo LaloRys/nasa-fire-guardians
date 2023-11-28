@@ -21,7 +21,7 @@ function Navbar() {
             {navbarRoutes.map((route, index) => (
               <Link
                 to={route.path}
-                className="text-white font-semibold mx-2 bg-[#ff3e3e] px-2 py-2 rounded-2xl hover:bg-[#bf4141] hover:rounded-xl "
+                className="text-white font-semibold mx-1 bg-[#ff3e3e] px-2 py-2 rounded-xl hover:bg-[#bf4141] hover:rounded-xl "
                 key={index}
               >
                 {route.name}

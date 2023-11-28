@@ -8,12 +8,12 @@ import {
   getSortedRowModel, //Ordenar
 } from "@tanstack/react-table";
 import dataMX from "../data/litte_modis_mexico";
-import dataUK from '../data/modis_2022_United_Kingdom-200.json'
+import dataUK from "../data/modis_2022_United_Kingdom-200.json";
 
 import classNames from "classnames";
 // import { rankItem } from "@tanstack/match-sorter-utils";
-import Sun from '../assets/sun.svg'
-import Moon from '../assets/moon.svg'
+import Sun from "../assets/sun.svg";
+import Moon from "../assets/moon.svg";
 
 import { useNavigate } from "react-router-dom";
 
@@ -71,7 +71,11 @@ function Table() {
     {
       accessorKey: "brightness",
       header: () => <span>brightness</span>,
-      cell: (info) => <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">{info.getValue()}</span>,
+      cell: (info) => (
+        <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "confidence",
@@ -92,12 +96,15 @@ function Table() {
       accessorKey: "satellite",
       header: () => <span>satellite</span>,
       cell: (info) => <p className="font-bold">{info.getValue()}</p>,
-
     },
     {
       accessorKey: "bright_t31",
       header: () => <span>bright_t31</span>,
-      cell: (info) => <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">{info.getValue()}</span>,
+      cell: (info) => (
+        <span className="font-bold bg-sky-500 py-1 px-2 rounded-md text-white">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "frp",
@@ -108,18 +115,20 @@ function Table() {
     {
       accessorKey: "type",
       header: () => <span>Type</span>,
-      cell: (info) => <span className="font-bold bg-sky-600 py-1  px-2 rounded-md text-white">{info.getValue()}</span>,
-
+      cell: (info) => (
+        <span className="font-bold bg-sky-600 py-1  px-2 rounded-md text-white">
+          {info.getValue()}
+        </span>
+      ),
     },
     {
       accessorKey: "daynight",
       header: () => <span>Day | Night</span>,
       cell: (info) => {
         return info.getValue() === "N" ? (
-          <img src={Moon} style={{width: '20px', height: '20px'}}/>
+          <img src={Moon} style={{ width: "20px", height: "20px" }} />
         ) : (
-          <img src={Sun} style={{width: '20px', height: '20px'}}/>
-
+          <img src={Sun} style={{ width: "20px", height: "20px" }} />
         );
       },
     },
@@ -170,73 +179,94 @@ function Table() {
             placeholder="Look for..."
           />
         </div>
-        <div>
-        <button className="bg-[#224c73] font-semibold px-2 py-1 rounded-md hover:bg-[#4b8fcf] mr-2" onClick={() => setData(dataWithIds(dataMX))}>Show Mexico Data</button>
-          <button className="bg-[#224c73] font-semibold px-2 py-1 rounded-md hover:bg-[#4b8fcf] mr-2" onClick={() => setData(dataWithIds(dataUK))}>Show UK Data</button>
+        <div className="hidden sm:flex">
+          <button
+            className="bg-[#224c73] font-semibold px-2 py-1 my-2 rounded-md hover:bg-[#4b8fcf] mr-2"
+            onClick={() => setData(dataWithIds(dataMX))}
+          >
+            Show Mexico Data
+          </button>
+          <button
+            className="bg-[#224c73] font-semibold px-2 py-1 my-2 rounded-md hover:bg-[#4b8fcf] mr-2"
+            onClick={() => setData(dataWithIds(dataUK))}
+          >
+            Show UK Data
+          </button>
         </div>
         {/* Texto de ubicacion */}
-        <div className="text-gray-400 text-sm font-semibold">
-        Showing {getStateTable().firstIndex} to{" "}
-            {getStateTable().lastIndex} of the total {getStateTable().totalRows}{" "}
-            records
-          </div>         
-          {/* Texto de ubicacion */}
+        <div className="hidden sm:flex text-gray-400 text-sm font-semibold ">
+          Showing {getStateTable().firstIndex} to {getStateTable().lastIndex} of
+          the total {getStateTable().totalRows} records
+        </div>
+        {/* Texto de ubicacion */}
       </div>
       {/* Buscador  */}
-      <table className="table-auto w-full">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              className="border-b border-gray-300 bg-[#224c73]"
-              key={headerGroup.id}
-            >
-              {headerGroup.headers.map((header) => (
-                <th className="py-2 px-4 text-left uppercase hover:bg-[#4a8ecd]" key={header.id}>
-                  {header.isPlaceholder ? null : (
-                    // Control Ordenado
-                    <div
-                      className={classNames({
-                        "cursor-pointer select-none":
-                          header.column.getCanSort(),
-                      })}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {/* Manejo de estado con iconos */}
-                      {{
-                        asc: " 🔼",
-                        desc: " 🔽",
-                      }[header.column.getIsSorted()] ?? null}
-                      {/* Manejo de estado con iconos */}
-                    </div>
-                    // Control Ordenado
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr className="text-black hover:bg-gray-200 bg-white" key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  className="py-2 px-4 cursor-pointer"
-                  key={cell.id}
-                  onClick={() => handleRowClick(row.original)}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      {/*  <----------- Tabla --------->  */}
+      <div className="overflow-auto">
+        <table className="table-auto w-full min-w-[560px]">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr
+                className="border-b border-gray-300 bg-[#224c73]"
+                key={headerGroup.id}
+              >
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className="py-2 px-4 text-left uppercase hover:bg-[#4a8ecd]"
+                    key={header.id}
+                  >
+                    {header.isPlaceholder ? null : (
+                      // Control Ordenado
+                      <div
+                        className={classNames({
+                          "cursor-pointer select-none":
+                            header.column.getCanSort(),
+                        })}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {/* Manejo de estado con iconos */}
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted()] ?? null}
+                        {/* Manejo de estado con iconos */}
+                      </div>
+                      // Control Ordenado
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                className="text-black hover:bg-gray-200 bg-white"
+                key={row.id}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    className="py-2 px-4 cursor-pointer"
+                    key={cell.id}
+                    onClick={() => handleRowClick(row.original)}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/*  <----------- Tabla --------->  */}
+
       {/* Paginacion */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 md:flex items-center justify-between space-y-4">
         {/* Arrows de navegacion*/}
         <div className="flex items-center gap-2">
           <button
@@ -254,19 +284,21 @@ function Table() {
             {"<"}
           </button>
           {/* Numero de pagina */}
-          {table.getPageOptions().map((pageNumber, index) => (
-            <button
-              onClick={() => table.setPageIndex(pageNumber)}
-              className={classNames({
-                "bg-[#224c73] px-2.5 py-1 rounded-md hover:bg-[#4b8fcf] hover:py-2 font-semibold disabled:hover:bg-slate-700": true,
-                "text-white px-2.5 py-2 bg-blue-500":
-                  pageNumber == table.getState().pagination.pageIndex,
-              })}
-              key={index}
-            >
-              {pageNumber + 1}
-            </button>
-          ))}
+          <div>
+            {table.getPageOptions().map((pageNumber, index) => (
+              <button
+                onClick={() => table.setPageIndex(pageNumber)}
+                className={classNames({
+                  "bg-[#224c73] px-2.5 py-1 rounded-md hover:bg-[#4b8fcf] hover:py-2 font-semibold disabled:hover:bg-slate-700": true,
+                  "text-white px-2.5 py-2 bg-blue-500":
+                    pageNumber == table.getState().pagination.pageIndex,
+                })}
+                key={index}
+              >
+                {pageNumber + 1}
+              </button>
+            ))}
+          </div>
           {/* Numero de pagina */}
           <button
             onClick={() => table.nextPage()}
@@ -284,7 +316,7 @@ function Table() {
           </button>
         </div>
         {/* Arrows de navegacion */}
-        
+
         {/* Numero de paginas */}
         <select
           className="text-black border border-gray-200 rounded-lg outline-indigo-600"
