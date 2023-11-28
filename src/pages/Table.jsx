@@ -289,7 +289,7 @@ function Table() {
               <button
                 onClick={() => table.setPageIndex(pageNumber)}
                 className={classNames({
-                  "bg-[#224c73] px-2.5 py-1 rounded-md hover:bg-[#4b8fcf] hover:py-2 font-semibold disabled:hover:bg-slate-700": true,
+                  "bg-[#224c73] px-2.5 py-1 ml-1 rounded-md hover:bg-[#4b8fcf] hover:py-2 font-semibold disabled:hover:bg-slate-700": true,
                   "text-white px-2.5 py-2 bg-blue-500":
                     pageNumber == table.getState().pagination.pageIndex,
                 })}
