@@ -71,6 +71,9 @@ function Map() {
     let initialLatitude = 51.5074;
     let initialLongitude = -0.1278;
 
+    // let initialLatitude = 19.4326;
+    // let initialLongitude = -99.1332;
+
     // Si latitude o longitude son válidos, se utilizan como coordenadas iniciales
     if (!isNaN(latitude) && !isNaN(longitude)) {
       initialLatitude = latitude;
